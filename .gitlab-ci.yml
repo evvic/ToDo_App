@@ -1,0 +1,43 @@
+--- 
+    build: 
+      image: "docker:latest"
+      script: 
+        - "docker login -u gitlab-ci-token -p \"${CI_JOB_TOKEN}\" \"${CI_REGISTRY}\""
+        - "docker build -f backend/DockerfileServer -t \"${BACKEND_IMAGE}\" ."
+        - "docker push \"${BACKEND_IMAGE}\""
+        - "docker build -f frontend/DockerfileServer -t \"${FRONTEND_IMAGE}\" ."
+        - "docker push \"${FRONTEND_IMAGE}\""
+      services: 
+        - "docker:dind"
+      stage: build
+    deploy: 
+      image: "alpine:latest"
+      script: 
+        - "apk update && apk add rsync openssh curl"
+        - "mkdir -p ~/.ssh && (umask  077 ; echo \"${DEPLOY_KEY_PRIVATE}\" | base64 -d > ~/.ssh/id_rsa)"
+        - "echo -e \"Host *\\n\\tStrictHostKeyChecking no\\n\\n\" > ~/.ssh/config"
+        - "mkdir remote_dir_pw"
+        - "cp docker-compose.server.yml remote_dir_pw/docker-compose.yml"
+        - "echo \"BACKEND_IMAGE=${BACKEND_IMAGE}\" >> remote_dir_pw/.env"
+        - "echo \"FRONTEND_IMAGE=${FRONTEND_IMAGE}\" >> remote_dir_pw/.env"
+        - "rsync -r remote_dir_pw \"${REMOTE_HOST}:./\""
+        - "ssh ${REMOTE_HOST} /bin/bash \" echo 'Starting..'; cd ~/remote_dir_pw; docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY; docker-compose pull; docker-compose up -d; \""
+      stage: deploy
+    stages: 
+      - test
+      - build
+      - deploy
+    test: 
+      image: "node:latest"
+      script: 
+        - "cd api"
+        - "npm install && npm test && npm audit"
+        - "cd ../frontend"
+        - "rm package-lock.json"
+        - "npm install && npm test && npm audit"
+      stage: test
+    variables: 
+      BACKEND_IMAGE: "${CI_REGISTRY_IMAGE}/backend"
+      REMOTE_HOST: deploy@172.16.5.103
+      FRONTEND_IMAGE: "${CI_REGISTRY_IMAGE}/frontend"
+    
