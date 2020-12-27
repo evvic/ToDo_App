@@ -1,0 +1,21 @@
+version: '2.4'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "8050:8000"
+    volumes:
+    - .:/frontend
+    environment:
+      CI: 'true'
+    restart: always
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "4050:5000"
+    volumes:
+      - ./backend:/opt/app
+    restart: always
