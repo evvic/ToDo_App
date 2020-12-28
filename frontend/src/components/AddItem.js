@@ -4,31 +4,20 @@ import './ToDoList.css';
 
 const AddItem = props => {
 
-    
+    const [refreshing, setRefreshing] = useState(false); 
 
     function ListItem(props) {
 
-        const [trashed, setTrashed] = useState(false);
 
         const HandleTrash = () => {
-            setTrashed(true);
             console.log("in HandleTrash");
             console.log(props.item.id);
 
             if(itemsdo.length > 0) {
-                //decrement preceding IDs
-                /*
-                for(var j = props.item.id; j < itemsdo.length; j++) {
-                    console.log("in for loop");
-                    console.log( itemsdo[j].id);
-                    itemsdo[j].id = itemsdo[j].id - 1;
-                }
-                */
                 
                 itemsdo[props.item.id].date_completed = new Date();
 
-                itemsdone.unshift(itemsdo[props.item.id]); //add to done array 1st
-
+                //itemsdone.unshift(itemsdo[props.item.id]); //add to done array 1st
                 /*
                 setDoneItems([ ...itemsdone, {
                     id: itemsdo[props.item.id].id,
@@ -37,30 +26,70 @@ const AddItem = props => {
                     date_completed: itemsdo[props.item.id].date_completed,
                 }])
                 */
-
                 //itemsdo.splice(props.item.id, 1);
             }
             else {
                 console.log("itemsdo is empty");
             }
+            setRefreshing(true);
             console.log("leaving handle");
+        }
+
+        const HandleReturn = () => {
+            console.log("in HandleReturn");
+            console.log(props.item.id);
+
+            itemsdo[props.item.id].date_completed = null;
+            setRefreshing(true);
+
+        }
+
+
+        const PermanentDelete = () => {
+            //decrement trailing items
+            
+            var j = props.item.id;
+            itemsdo.splice(props.item.id, 1);
+
+
+            for(j; j < itemsdo.length; j++) {
+                console.log("in for loop");
+                console.log( itemsdo[j].id);
+                itemsdo[j].id = j;
+            }
+            setRefreshing(true);
         }
 
         
         //if(props.item.date_completed != null) setTrashed(true);
         console.log("near ListItem return");
         return(
-
-            (trashed || props.item.date_completed != null) ? 
-            <> 
-                {/*should display nothing*/}       
-            </>
+            //nested if statement
+            (props.done == false) ?
+                //in current tasks
+                (props.item.date_completed != null) ? 
+                    <> 
+                        {/*should display nothing in current tasks*/}       
+                    </>
+                :
+                    <>
+                        <button>{props.item.id}</button>
+                        <button>{props.item.text}</button>
+                        <button onClick={HandleTrash}>Trash</button>
+                    </>
             :
-            <>
-                <button>{props.item.id}</button>
-                <button>{props.item.text}</button>
-                <button onClick={HandleTrash}>Delete</button>
-            </>
+                //in completed tasks
+                (props.item.date_completed == null) ? 
+                    <> 
+                        {/*should display nothing in comleted tasks*/}       
+                    </>
+                :
+                    <>
+                        <button>{props.item.id}</button>
+                        <button>{props.item.text}</button>
+                        <button onClick={HandleReturn}>Add back</button>
+                        <button onClick={PermanentDelete}>Delete</button>
+                    </>
             //() => TrashMe(this.props.item.id)
         )
         
@@ -102,23 +131,23 @@ const AddItem = props => {
     //mapping array of items to do
     const listitemstodo = itemsdo.map(item => (
         <li key={item.id}>
-            <ListItem key={item.id} item={item}></ListItem>
+            <ListItem key={item.id} item={item} done={false}></ListItem>
         </li>
     ))
 
     // array of tasks DONE
-    var [itemsdone, setDoneItems] = useState([]);
+    //var [itemsdone, setDoneItems] = useState([]);
 
     //mapping array of items to do
-    const listitemsdone = itemsdone.map(item => (
+    const listitemsdone = itemsdo.map(item => (
         <li key={item.id}>
-            <ListItem key={item.id} item={item}></ListItem>
+            <ListItem key={item.id} item={item} done={true}></ListItem>
         </li>
     ))
 
     const appendItem = (task) => {
         setItems([ ...itemsdo, {
-            id: i,//itemsdo.length,
+            id: itemsdo.length, //i
             text: task.text,
             date_created: task.date_created,
             date_completed: task.date_completed,
@@ -137,9 +166,18 @@ const AddItem = props => {
         setTyping(false);
     }
 
+
     console.log("near AddItem return");
     return(
         <>
+
+        {(refreshing) && //inline 'IF' statement for showing list of deleted tasks
+            <ul>
+                <p>refreshing</p>
+                {setRefreshing(false)}
+            </ul>
+        }
+
         <div className='Adding'>
             <form className='sumthin' onSubmit={HandleSubmit}>
                 {(added || !typing) && valid ? <div className='success-message'>Task successfully added!</div> : null}
@@ -165,6 +203,7 @@ const AddItem = props => {
         {console.log(showDone)}
         {(showDone) && //inline 'IF' statement for showing list of deleted tasks
             <ul>
+                <p>inside guy</p>
                 {listitemsdone}
             </ul>
         }
