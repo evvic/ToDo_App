@@ -1,0 +1,24 @@
+{
+  "name": "practical-work-t02",
+  "version": "1.0.0",
+  "description": "version 1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "type": "module",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node frontend/src/index.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evvic/practical-work-t02.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/evvic/practical-work-t02/issues"
+  },
+  "homepage": "https://github.com/evvic/practical-work-t02#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
