@@ -1,32 +1,23 @@
-import React, {useState} from 'react';
-import './ToDoList.css';   
-//import ListItem from './ListItem.js'
+import React, { useState } from 'react';
+import './ToDoList.css';
+
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import InputGroup from 'react-bootstrap/InputGroup'; //text & button
+import FormControl from 'react-bootstrap/Form';
 
 const AddItem = props => {
 
-    const [refreshing, setRefreshing] = useState(false); 
+    const [refreshing, setRefreshing] = useState(false);
 
     function ListItem(props) {
-
 
         const HandleTrash = () => {
             console.log("in HandleTrash");
             console.log(props.item.id);
 
-            if(itemsdo.length > 0) {
-                
+            if (itemsdo.length > 0) {
                 itemsdo[props.item.id].date_completed = new Date();
-
-                //itemsdone.unshift(itemsdo[props.item.id]); //add to done array 1st
-                /*
-                setDoneItems([ ...itemsdone, {
-                    id: itemsdo[props.item.id].id,
-                    text: itemsdo[props.item.id].text,
-                    date_created: itemsdo[props.item.id].date_created,
-                    date_completed: itemsdo[props.item.id].date_completed,
-                }])
-                */
-                //itemsdo.splice(props.item.id, 1);
             }
             else {
                 console.log("itemsdo is empty");
@@ -47,79 +38,104 @@ const AddItem = props => {
 
         const PermanentDelete = () => {
             //decrement trailing items
-            
+
             var j = props.item.id;
             itemsdo.splice(props.item.id, 1);
 
-
-            for(j; j < itemsdo.length; j++) {
+            for (j; j < itemsdo.length; j++) {
                 console.log("in for loop");
-                console.log( itemsdo[j].id);
+                console.log(itemsdo[j].id);
                 itemsdo[j].id = j;
             }
             setRefreshing(true);
         }
 
-        
+
         //if(props.item.date_completed != null) setTrashed(true);
         console.log("near ListItem return");
-        return(
+        return (
             //nested if statement
-            (props.done == false) ?
+            (props.done === false) ?
                 //in current tasks
-                (props.item.date_completed != null) ? 
-                    <> 
-                        {/*should display nothing in current tasks*/}       
+                (props.item.date_completed != null) ?
+                    <>
+                        {/*should display nothing in current tasks*/}
+                    </>
+                    :
+                    <>
+                        <Card className='taskitem'>
+                            <Card.Body className='taskitembody'>
+                                <span className="badge badge-primary badge-pill" style={{margin:"6px"}}>{props.item.id}</span>
+                                {props.item.text}
+                                <a className="ui-tooltip" title="task completed">
+                                    <span style={{cursor:"help"}}>          
+                                        <Button className='cardbutton' onClick={HandleTrash}>
+                                            <Emoji symbol="✔️"/>
+                                        </Button>{' '}   
+                                    </span>
+                                </a>
+                            </Card.Body>
+                        </Card>
                     </>
                 :
-                    <>
-                        <button>{props.item.id}</button>
-                        <button>{props.item.text}</button>
-                        <button onClick={HandleTrash}>Trash</button>
-                    </>
-            :
                 //in completed tasks
-                (props.item.date_completed == null) ? 
-                    <> 
-                        {/*should display nothing in comleted tasks*/}       
-                    </>
-                :
+                (props.item.date_completed == null) ?
                     <>
-                        <button>{props.item.id}</button>
-                        <button>{props.item.text}</button>
-                        <button onClick={HandleReturn}>Add back</button>
-                        <button onClick={PermanentDelete}>Delete</button>
+                        {/*should display nothing in comleted tasks*/}
                     </>
-            //() => TrashMe(this.props.item.id)
+                    :
+                    <>
+                        <Card className='taskitem' style={{filter:"brightness(0.9)"}}>
+                            <Card.Body className='taskitembody'>
+                                <span className="badge badge-primary badge-pill" style={{margin:"6px"}}>{props.item.id}</span>
+                                {props.item.text}
+                                <a className="ui-tooltip" title="return task to list">
+                                    <span style={{cursor:"help"}}>
+                                        <Button className='cardbutton' onClick={HandleReturn}>
+                                            <Emoji symbol="♻️"/>
+                                        </Button>
+                                    </span>
+                                </a>
+                                <a className="ui-tooltip" title="permanently delete task">
+                                    <span style={{cursor:"help"}}>
+                                        <Button className='cardbutton' onClick={PermanentDelete}>
+                                            <Emoji symbol="🗑️"/>
+                                        </Button>{' '}
+                                    </span>
+                                </a>
+                                
+                            </Card.Body>
+                        </Card>
+                    </>
         )
-        
+
     }
 
-    const [i, increment] = useState(0);
-    
     const [task, setTask] = useState({
         text: "",
         date_created: null,
         date_completed: null,
     });
+
     const [added, setAdded] = useState(false);
     const [valid, setValid] = useState(false);
     const [typing, setTyping] = useState(false);
     const [showDone, toggleShow] = useState(false); //shows 'deleted' tasks
 
-   
     const HandleInputChange = (event) => {
-        setTask({...task,
+        setTask({
+            ...task,
             text: event.target.value,
-            date_created: new Date() });
+            date_created: new Date()
+        });
         setTyping(true);
         //console.log(task);
-    } 
+    }
 
     // when button/enter is pressed, check it has text and set true
     const HandleSubmit = (event) => {
         event.preventDefault();
-        if(task.text) setValid(true);
+        if (task.text) setValid(true);
         setAdded(true);
         appendItem(task);
         ResetInput(task);
@@ -146,69 +162,97 @@ const AddItem = props => {
     ))
 
     const appendItem = (task) => {
-        setItems([ ...itemsdo, {
+        setItems([...itemsdo, {
             id: itemsdo.length, //i
             text: task.text,
             date_created: task.date_created,
             date_completed: task.date_completed,
         }])
-
-        increment(i + 1); //establishing next key/ID
-        console.log("increment");
-        console.log(i);
     }
 
     const ResetInput = (task) => {
-        setTask({...task,
+        setTask({
+            ...task,
             text: "",
-            date_created: null });
+            date_created: null
+        });
         setAdded(false);
         setTyping(false);
     }
 
 
     console.log("near AddItem return");
-    return(
+    return (
         <>
+        <Card className='maincard'>
 
-        {(refreshing) && //inline 'IF' statement for showing list of deleted tasks
+            <h1>To Do List</h1>
+            {(refreshing) && //inline 'IF' statement for showing list of deleted tasks
+                <ul>
+                    <p>refreshing</p>
+                    {setRefreshing(false)}
+                </ul>
+            }
+
+            <div className='Adding'>
+                <form className='sumthin' onSubmit={HandleSubmit}>
+                    {(added || !typing) && valid ? <div className='success-message'>Task successfully added!</div> : null}
+
+                    <InputGroup className="mb-3">
+                        <input
+                            onChange={HandleInputChange}
+                            required='required'
+                            value={task.text}
+                            placeholder='add new task'
+                            className='adding-box'/>
+                        <InputGroup.Append>
+                            <Button type='submit'>Add</Button>{' '}
+                        </InputGroup.Append>
+                    </InputGroup>
+                </form>
+            </div>
+
             <ul>
-                <p>refreshing</p>
-                {setRefreshing(false)}
+                {listitemstodo}
             </ul>
-        }
 
-        <div className='Adding'>
-            <form className='sumthin' onSubmit={HandleSubmit}>
-                {(added || !typing) && valid ? <div className='success-message'>Task successfully added!</div> : null}
-                
-                <input
-                    onChange={HandleInputChange}
-                    required='required'
-                    value={task.text}
-                    placeholder='add new task'
-                    className='adding-box'/>
-                <button type='submit'>Add</button>
+            {(itemsdo.length > 0) && 
+            <>
+                <br />
+                <a className="ui-tooltip" title="toggle showing completed tasks">
+                    <span style={{cursor:"help"}}>
+                        <Button className='showdone' onClick={() => toggleShow(!showDone)}>
+                            {(showDone) ? "Don't show" : "Show completed tasks"}
+                        </Button>
+                    </span>
+                </a>
+    
                 <br/>
-                {added && !task.text ? <span>must not be empty</span> : null}
-
-            </form>
-        </div>
-        <ul>
-            {listitemstodo}
-        </ul>
-
-        <br/>
-        <button onClick={() => toggleShow(!showDone)}>{(showDone) ? "Don't show" : "Show completed tasks"}</button>
-        {console.log(showDone)}
-        {(showDone) && //inline 'IF' statement for showing list of deleted tasks
-            <ul>
-                <p>inside guy</p>
-                {listitemsdone}
-            </ul>
-        }
+                
+                {console.log(showDone)}
+                {(showDone) && //inline 'IF' statement for showing list of deleted tasks\
+                    //add a message that theres no trash if there's no trash
+                    <ul>
+                        {listitemsdone}
+                    </ul>
+                }
+            </>
+            }
+            
+        </Card>
         </>
     );
 };
+
+const Emoji = props => (
+    <span
+        className="emoji"
+        role="img"
+        aria-label={props.label ? props.label : ""}
+        aria-hidden={props.label ? "false" : "true"}
+    >
+        {props.symbol}
+    </span>
+);
 
 export default AddItem;
