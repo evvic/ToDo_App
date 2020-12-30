@@ -1,11 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import './ToDoList.css';
 import AddItem from './AddItem';
-//import React, { useEffect, useState } from "react";
-
 
 //props are READ-ONLY
-
 
 const useFetch = (url) => {
     const [data, setData] = useState(null);
@@ -31,6 +28,7 @@ function ToDoList() {
      //this is for 
     const { data, loading } = useFetch("http://localhost:5050/task/");
 
+    console.log(data);
     
     return(
         <div className='ToDoListy'>
