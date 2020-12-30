@@ -39,12 +39,24 @@
 
 .maincard {
     background: --bg;
-    width: 50%;
+    width: 80%;
     height: 100%;
     padding: 5px;
     margin: 5px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
     'Lucida Sans', Arial, sans-serif;
+}
+
+@media (max-width: 420px) {
+    .maincard {
+        width: 95%;
+    }
+}
+
+@media (min-width: 992px) {
+    .maincard {
+        width: 60%;
+    }
 }
 
 .cardbutton {

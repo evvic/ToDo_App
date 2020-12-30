@@ -7,14 +7,14 @@ import './App.css';
 
 function App() {
   return (
-  <>
-    <Router>
-      <div className='backg'>
-        <ToDoList /> 
-        <h2>Hello Team-02<h2>
-      </div>
-    </Router>
-  </>
+    <>
+      <Router>
+        <div className='backg'>
+          <ToDoList /> 
+          <h2>Hello Team-02</h2>
+        </div>
+      </Router>
+    </>
   );
 }
 
