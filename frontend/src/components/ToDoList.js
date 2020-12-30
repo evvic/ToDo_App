@@ -18,12 +18,16 @@ const useFetch = (url) => {
       const item = data.results;
       setData(item);
       setLoading(false);
+      console.log(data);
+
     }, []);
   
     return { data, loading };
-    console.log(data);
+
+    
   };
 
+//api calls will happen here
 
 function ToDoList() {
      //this is for 
