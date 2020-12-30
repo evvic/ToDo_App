@@ -32,7 +32,6 @@ const AddItem = props => {
 
             itemsdo[props.item.id].date_completed = null;
             setRefreshing(true);
-
         }
 
 
