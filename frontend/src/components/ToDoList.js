@@ -15,10 +15,12 @@ const useFetch = (url) => {
       const item = data.results;
       setData(item);
       setLoading(false);
+      console.log(data);
+
     }, []);
   
-    console.log(data);
     return { data, loading };
+
     
   };
 
