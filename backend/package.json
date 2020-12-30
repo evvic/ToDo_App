@@ -6,9 +6,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
     "lint": "eslint --fix src",
-    "test": "mocha --exit"
+    "test": "mocha --exit",
+    "client-install": "npm install --prefix client",
+    "server": "nodemon server.js",
+    "client": "cd ../ && npm start --prefix client",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
   },
   "keywords": [],
   "author": "CJ R. <cj@null.computer> (https://w3cj.now.sh)",
@@ -27,6 +30,7 @@
     "products": "^3.0.3"
   },
   "devDependencies": {
+    "concurrently": "^5.3.0",
     "eslint": "^7.14.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
