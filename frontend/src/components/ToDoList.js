@@ -20,10 +20,12 @@ const useFetch = (url) => {
       setLoading(false);
     }, []);
   
-    return { data, loading };
     console.log(data);
+    return { data, loading };
+    
   };
 
+//api calls will happen here
 
 function ToDoList() {
      //this is for 
