@@ -4,6 +4,7 @@ import './ToDoList.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import InputGroup from 'react-bootstrap/InputGroup'; //text & button
+//1.0.1
 
 const AddItem = props => {
     // array of tasks TO-DO
