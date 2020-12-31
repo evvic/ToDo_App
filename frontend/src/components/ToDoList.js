@@ -38,7 +38,6 @@ function ToDoList() {
         </div>
     );
     /*
-     
     {
         this.state.data.map((items)=>
         <div><span>{items.text}</span></div>)
