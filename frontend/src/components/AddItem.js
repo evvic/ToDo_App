@@ -1,12 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ToDoList.css';
 
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import InputGroup from 'react-bootstrap/InputGroup'; //text & button
-import FormControl from 'react-bootstrap/Form';
 
 const AddItem = props => {
+    // array of tasks TO-DO
+    var [itemsdo, setItems] = useState([]);
+
+    //props data holds the fetched api tasks
+    useEffect(() => {
+
+        if (Array.isArray(props.data)) {
+            console.log("useEffect-> data is array");
+
+            var k; //iterator
+            for(k of props.data) {
+                setItems([...itemsdo, {
+                    id: itemsdo.length, 
+                    text: k.name,
+                    date_created: k.created,
+                    date_completed: k.completed,
+                }])
+            }
+        }
+        else {
+            console.log("useEffect-> data is NOT array");
+            setItems([...itemsdo, {
+                id: itemsdo.length, 
+                text: props.data.name,
+                date_created: props.data.created,
+                date_completed: props.data.completed,
+            }])
+        }
+    }, []) 
 
     const [refreshing, setRefreshing] = useState(false);
 
@@ -32,8 +60,8 @@ const AddItem = props => {
 
             itemsdo[props.item.id].date_completed = null;
             setRefreshing(true);
-        }
 
+        }
 
         const PermanentDelete = () => {
             //decrement trailing items
@@ -49,9 +77,9 @@ const AddItem = props => {
             setRefreshing(true);
         }
 
-
         //if(props.item.date_completed != null) setTrashed(true);
         console.log("near ListItem return");
+
         return (
             //nested if statement
             (props.done === false) ?
@@ -107,7 +135,6 @@ const AddItem = props => {
                         </Card>
                     </>
         )
-
     }
 
     const [task, setTask] = useState({
@@ -115,31 +142,30 @@ const AddItem = props => {
         date_created: null,
         date_completed: null,
     });
+
     const [added, setAdded] = useState(false);
     const [valid, setValid] = useState(false);
     const [typing, setTyping] = useState(false);
     const [showDone, toggleShow] = useState(false); //shows 'deleted' tasks
 
-   
     const HandleInputChange = (event) => {
-        setTask({...task,
+        setTask({
+            ...task,
             text: event.target.value,
-            date_created: new Date() });
+            date_created: new Date()
+        });
         setTyping(true);
         //console.log(task);
-    } 
+    }
 
     // when button/enter is pressed, check it has text and set true
     const HandleSubmit = (event) => {
         event.preventDefault();
-        if(task.text) setValid(true);
+        if (task.text) setValid(true);
         setAdded(true);
         appendItem(task);
         ResetInput(task);
     }
-
-    // array of tasks TO-DO
-    var [itemsdo, setItems] = useState([]);
 
     //mapping array of items to do
     const listitemstodo = itemsdo.map(item => (
@@ -147,9 +173,6 @@ const AddItem = props => {
             <ListItem key={item.id} item={item} done={false}></ListItem>
         </li>
     ))
-
-    // array of tasks DONE
-    //var [itemsdone, setDoneItems] = useState([]);
 
     //mapping array of items to do
     const listitemsdone = itemsdo.map(item => (
@@ -160,7 +183,7 @@ const AddItem = props => {
 
     const appendItem = (task) => {
         setItems([...itemsdo, {
-            id: itemsdo.length, //i
+            id: itemsdo.length, 
             text: task.text,
             date_created: task.date_created,
             date_completed: task.date_completed,

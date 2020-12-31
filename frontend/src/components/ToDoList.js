@@ -35,8 +35,6 @@ function ToDoList() {
     return(
         <div className='ToDoListy'>
             <AddItem data={data}/>
-            
-            
         </div>
     );
     /*
