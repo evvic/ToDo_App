@@ -8,12 +8,14 @@ import './App.css';
 function App() {
   return (
     <>
+    <div className='backg'>
       <Router>
-        <div className='backg'>
-          <ToDoList /> 
-          <h2>Hello Team-02</h2>
-        </div>
+        <ToDoList /> 
+
+        <br/>
+        <p>team-02: Eric n' Jaakko</p>
       </Router>
+    </div>
     </>
   );
 }

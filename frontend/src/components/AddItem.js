@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import './ToDoList.css';
 
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import InputGroup from 'react-bootstrap/InputGroup'; //text & button
-//1.0.1
 
 const AddItem = props => {
     // array of tasks TO-DO
@@ -201,11 +200,20 @@ const AddItem = props => {
         setTyping(false);
     }
 
+/*
+    const [nameclass, setNameclass] = useReducer(
+        nameclass = "maincard",
+        ()
+    );
 
+    CardStuff = () => {
+
+    } 
+*/
     console.log("near AddItem return");
     return (
         <>
-        <Card className='maincard'>
+        <Card className={(itemsdo.length > 0) ? 'maincard' : 'maincard-empty'}>
 
             <h1>To Do List</h1>
             {(refreshing) && //inline 'IF' statement for showing list of deleted tasks
