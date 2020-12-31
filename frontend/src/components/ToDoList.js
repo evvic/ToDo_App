@@ -1,11 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import './ToDoList.css';
 import AddItem from './AddItem';
-//import React, { useEffect, useState } from "react";
-
 
 //props are READ-ONLY
-
 
 const useFetch = (url) => {
     const [data, setData] = useState(null);
@@ -34,16 +31,14 @@ function ToDoList() {
     const { data, loading } = useFetch("http://localhost:5050/task/"); //Real backend  http://wsp2pw.course.tamk.cloud/api
 
 
+    console.log(data);
     
     return(
         <div className='ToDoListy'>
             <AddItem data={data}/>
-            
-            
         </div>
     );
     /*
-     
     {
         this.state.data.map((items)=>
         <div><span>{items.text}</span></div>)

@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-.vscode/
-node_modules/
-=======
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -28,4 +24,3 @@ yarn-error.log*
 
 #jaakko's vs settings
 .vscode
->>>>>>> f67fea6387516dd459d32623dd881903c7b996d1
