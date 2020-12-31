@@ -29,4 +29,5 @@ The fetched task objects have the format of:
   date_completed: null      //JS date completed, initialized null
 }
 ```
+*Created by Eric Brown & Jaakko Virtanen*
 
