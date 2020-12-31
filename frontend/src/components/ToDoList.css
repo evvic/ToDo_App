@@ -5,10 +5,22 @@
     --border-radius: 8px;
     --nav-size: 60px;
     --border: 1px solid #474a4d;
-    --speed: 500ms;
+    --speed: 400ms;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
       'Lucida Sans', Arial, sans-serif;
+  }
+
+  /*
+.list-bg {
+    position: fixed;
+    background: --bg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+        'Lucida Sans', Arial, sans-serif;
 }
+*/
 
 /*div for input field*/
 .Adding {
@@ -22,29 +34,87 @@
     /*height:fit-content;*/
     height: min-content;
     padding: 2cm;
-
 }
 
 .maincard {
     background: --bg;
-    width: 80%;
+    width: 70%;
     height: 100%;
     padding: 5px;
-    margin: 5px;
+    margin: 10px;
+    margin-top: 30px;
+    margin-bottom: 35vh;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
     'Lucida Sans', Arial, sans-serif;
+    transition: margin-top var(--speed) ease,
+        margin-bottom var(--speed) ease,
+        height var(--speed) ease;
 }
 
+/* 420px - 992 px */
+.maincard-empty {
+    background: --bg;
+    width: 70%;
+    height: 100%;
+    padding: 5px;
+    margin: 10px;
+    margin-top: 35vh;
+    margin-bottom: 40vh;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+    transition: margin-top var(--speed) ease,
+        margin-bottom var(--speed) ease,
+        height var(--speed) ease;
+}
+
+/* 0 px - 420 px */
 @media (max-width: 420px) {
     .maincard {
         width: 95%;
+        margin: 10px;
+        /*margin-top: 20px;*/
+        margin-bottom: 30vh;
+        transition: margin-top var(--speed) ease,
+            margin-bottom var(--speed) ease,
+            height var(--speed) ease;
     }
+    .maincard-empty {
+        width: 95%;
+        margin-top: 30vh;
+        margin-bottom: 30vh;
+        transition: margin-top var(--speed) ease,
+            margin-bottom var(--speed) ease,
+            height var(--speed) ease;
+    }
+    .taskitem {
+        border: 1px solid black;
+    }   
 }
 
+/* 992px -  9999px */
 @media (min-width: 992px) {
     .maincard {
         width: 60%;
+        margin-top: 50px;
+        margin-bottom: 35vh;
+        transition: margin-top var(--speed) ease,
+            margin-bottom var(--speed) ease,
+            height var(--speed) ease;
     }
+    .maincard-empty {
+        width: 60%;
+        margin-top: 35vh;
+        margin-bottom: 40vh;
+        transition: margin-top var(--speed) ease,
+            margin-bottom var(--speed) ease,
+            height var(--speed) ease;
+    }
+    
+}
+
+.emptytask {
+    margin-top: 100px;
+
 }
 
 .cardbutton {
@@ -52,9 +122,10 @@
     margin: 2px;
 }
 
+
 .taskitem {
     border: 1.5px solid black;
-    margin: 2px;
+    margin: 5px;
     padding: 10px;
 }
 
@@ -67,9 +138,16 @@
     transition: background-color 300ms;
 }
 
+
+
 /*TEMPORARILY USING TODOLISTY AS THE CSS FOR THE BACKGROUND, HOWEVER IT SHOULDNT STYLE THE BG*/
 
 .ToDoListy {
+    /*background: rgb(162,213,214);
+    background: linear-gradient(0deg, rgba(162,213,214,1) 0%, rgba(208,185,222,1) 100%)
+    no-repeat;
+    height: 100vh;
+    width: 100%;*/
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -84,3 +162,20 @@
     margin: 2px auto;
     display: block;
 }
+
+/*
+.ToDoListy > h1 {
+    color: #fff;
+    font-size: 100px;
+    margin-top: -100px;
+}
+
+.ToDoListy > p {
+    margin-top: 8px;
+    color: #fff;
+    font-size: 30px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+}
+*/
+
