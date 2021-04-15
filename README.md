@@ -3,8 +3,9 @@
 
 version 1.0.1
 
-Our [website](http://wsp2.course.tamk.cloud/) is a clean & responsive to-do app.
-
+Our ~~[website](http://wsp2.course.tamk.cloud/)~~ is a clean & responsive to-do app.
+| :warning:  website domain is down   |
+|-----------------------------------------|
 ---
 
 ### Frontend
