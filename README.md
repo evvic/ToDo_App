@@ -1,6 +1,5 @@
 # practical-work-t02
 ## TO-DO WebApp
-
 version 1.0.1
 
 Our ~~[website](http://wsp2.course.tamk.cloud/)~~ is a clean & responsive to-do app.
